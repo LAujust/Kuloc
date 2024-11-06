@@ -68,7 +68,7 @@ def cal_lcs(param_):
 
 if __name__ == '__main__':
     event_name = 'S240422ed'
-    telescopes = ['ZTF','DECam'] # ZTF/DECam
+    telescopes = ['ZTF','DECam','GOTO','KMTNet'] # ZTF/DECam
     group = 'bayestar' # LALInference / bayestar
     svd_path = '/home/Aujust/data/Kilonova/GPR/NN/'
     model_name = 'Bulla_bhns_spectra'
@@ -133,7 +133,7 @@ if __name__ == '__main__':
         #         pbar.update(1)
                 
     print(detection_stat)
-    with open('./data/test_stat_df.pkl','wb') as handle:
+    with open('./data/S240422ed_treasure_wfst_df.pkl','wb') as handle:
         pickle.dump(detection_stat,handle)
         handle.close()
         

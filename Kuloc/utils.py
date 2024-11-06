@@ -112,6 +112,39 @@ def Kasenmodel_2comp(param,model,phase,wave):
     phase, wave, flux = out
     return phase, wave, flux
 
+def load_plan(plan_dir):
+    if os.path.exists(plan_dir):
+        print('Load plan form file.')
+        with open(plan_dir,'rb') as handle:
+            plan = pickle.load(handle)
+        handle.close()
+    else:
+        print('No matched plan file, fetching plan from TreasureMap. ')
+        Z = {
+            'graceid':event_name,
+            'instruments':[telescope]
+        }
+
+        pr = Pointings_request(Z)
+        plan = pr.plan
+        with open(plan_dir,'wb') as handle:
+            pickle.dump(plan,handle)
+            handle.close()
+    return plan
+
+def load_skymap(skymap_dir,multiorder=False):
+    if multiorder:
+        m, meta = read_sky_map(skymap_dir,nest=False,distances=True)
+        prob, distmu, distsigma = m[0], m[1], m[2]
+    else:
+        prob, distmu,distsigma,distnorm = hp.fitsfunc.read_map(skymap_dir,field=[0,1,2,3])
+        
+    skymap = {
+                'prob':prob,
+                'distmu':distmu,
+                'distsigma':distsigma
+                }
+    return skymap
 
 
 def load_filter_list():

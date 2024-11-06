@@ -18,6 +18,7 @@ class Tr_Generator(object):
     flux_model[func]        a function to calculate phase, wave and flux (see ref. in simsurvey)
     lcsimul_func[func]      lc simulation function, see simsurvey
     ang_depend[bool]        angular dependence
+    n[int]                  Numbers of transients
     """
     
     def __init__(self,**kwargs):
@@ -30,17 +31,18 @@ class Tr_Generator(object):
         self.parameters = kwargs.get('parameters',None)
         self.fluxmodel = kwargs.get('fluxmodel',None)
         self.ang_depend = kwargs.get('ang_depend',True)
+        self.n =kwargs.get('ang_depend',3000)
         
         self.setup()
         
     def setup(self):
         #load skymap
         if self.skymap is None and self.skymap_dir is not None:
-            self.skymap = self.load_skymap()
+            self.skymap = load_skymap()
             
         #fetch trigger time
         self.mjd_start = event_mjd(self.event_name)
-        self.mjd_range = (self.mjd_start-0.1,self.mjd_start+0.1)
+        self.mjd_range = (self.mjd_start-0.01,self.mjd_start+0.01)
         
         if self.ang_depend:
             self.sourcemodel = AngularTimeSeriesSource
@@ -50,7 +52,6 @@ class Tr_Generator(object):
         #test the knif model
         
         'SIMULATION SETTINGS'
-        self.n = 3000
         self.zmin, self.zmax = 0,1
         self.ratefunc = lambda z: 5e-1*(1+z)
         

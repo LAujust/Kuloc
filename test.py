@@ -12,7 +12,7 @@ Z = {
     'event_name':'S240422ed',
     'group':'bayestar',
     'spec_model':spec_model,
-    'parameters':Kuloc.parameters.POSSIS_NSBH_parameters()
+    'parameters':Kuloc.parameters.POSSIS_NSBH_parameters(),
 }
 Tr_Gen = Kuloc.tr_generator.Tr_Generator(**Z)
 
